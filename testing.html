@@ -86,11 +86,14 @@
     let accuracyCircle = null;
 
     function updateLocation(pos) {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+      // const lat = pos.coords.latitude;
+      // const lng = pos.coords.longitude;
+
+      const lat = 10.986738826235126;
+      const lng = 104.9818771299889;
 
       const coords = latLngToImageXY(lat, lng, geoBounds, mapWidth, mapHeight);
-
+      console.log("map coord to img: ", coords);
       if (userMarker) {
         userMarker.setLatLng(coords);
         accuracyCircle.setLatLng(coords);
