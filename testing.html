@@ -33,19 +33,19 @@
   <div id="map"></div>
 
   <script>
-    // 📍 Image map dimensions (in pixels)
+    // Image map dimensions
     const mapWidth = 2000;
     const mapHeight = 1500;
 
-    // 🌐 Real GPS bounds of Phnom Penh matching the image (adjust to match your map)
+    //  GPS bounds of Phnom Penh matching the image (adjust to match your map)
     const geoBounds = {
-      latTop: 11.6000,
-      latBottom: 11.5000,
-      lngLeft: 104.8800,
-      lngRight: 105.0000
+      latTop: 10.9958,
+      latBottom: 10.8167,
+      lngLeft: 104.9667,
+      lngRight: 104.9753
     };
 
-    // 🗺️ Set up Leaflet map with Simple CRS (image coords)
+    // Set up Leaflet map with Simple CRS (image coords)
     const map = L.map('map', {
       crs: L.CRS.Simple,
       minZoom: -1,
@@ -53,12 +53,12 @@
       zoomControl: true
     });
 
-    // 🖼️ Image overlay using pixel bounds
+    // Image overlay using pixel bounds
     const imageBounds = [[0, 0], [mapHeight, mapWidth]];
     L.imageOverlay('map.png', imageBounds).addTo(map);
     map.fitBounds(imageBounds);
 
-    // 📌 Static attractions on the image (use image [y, x] coords)
+    // Static attractions on the image (use image [y, x] coords)
     const attractions = [
       { name: "Royal Palace", coords: [500, 1000] },
       { name: "Wat Phnom", coords: [400, 900] },
@@ -79,7 +79,7 @@
         .bindPopup(`<b>${place.name}</b>`);
     });
 
-    // 🧭 Live user tracking marker
+    // Live user tracking marker
     let userMarker = null;
     let accuracyCircle = null;
 
@@ -118,7 +118,7 @@
 
     navigator.geolocation.watchPosition(updateLocation, error, geoOptions);
 
-    // 📐 Convert real GPS to image [y, x] coordinates
+    // Convert real GPS to image [y, x] coordinates
     function latLngToImageXY(lat, lng, bounds, imageWidth, imageHeight) {
       const { latTop, latBottom, lngLeft, lngRight } = bounds;
 
