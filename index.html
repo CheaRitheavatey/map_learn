@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Geolocation API</h1>
+    <div id="output"></div>
+</body>
+<script>
+    if (!navigator.geolocation) {
+        throw new Error("No geolocation available");
+        
+    }
+
+    let hasLocation = false;
+    function success(pos) {
+        hasLocation = true;
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        // feed to mapping api
+        const markup = `
+        <a href="https://www.openstreetmap.org/#map=16/${lat}/${lng}" target="_blank">
+            Your current position: latitude: ${lat}, longitude: ${lng}
+        </a> `;
+
+        document.getElementById('output').innerHTML = markup;
+        
+        // to clear or to stop watching the user locaiton
+        // navigator.geolocation.clearWatch(id); 
+        // console.log(pos);
+    }
+    function error(err) {
+        if (!hasLocation) {
+
+            if (err.code === 1) {
+                alert("Please allow access to geolocation");
+            } else {
+                alert("Position unavailable");
+    
+            }
+        }
+        console.log(err);
+    }
+    const options = {
+        // want the most accurrate location possible
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maxAge: 0 // time where u want ti show
+    }
+    const id = navigator.geolocation.watchPosition(success, error, options);
+</script>
+</html>
