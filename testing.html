@@ -60,11 +60,12 @@
 
     // Static attractions on the image (use image [y, x] coords)
     const attractions = [
-      { name: "Royal Palace", coords: [500, 1000] },
-      { name: "Wat Phnom", coords: [400, 900] },
-      { name: "Central Market", coords: [600, 950] },
-      { name: "Olympia Market", coords: [800, 950] },
-      { name: "Old Market", coords: [800, 850] },
+      { name: "Angkor Borei Wall", coords: latLngToImageXY(10.980298769150917, 104.9853597023502,geoBounds,mapWidth,mapHeight) },
+      { name: "Angkor Borei Musuem", coords: latLngToImageXY(10.994957479901517, 104.97766512623782,geoBounds,mapWidth,mapHeight) },
+      { name: "Restaurant", coords: latLngToImageXY(10.997836953060649, 104.97513770915715,geoBounds,mapWidth,mapHeight) },
+      { name: "Kamnou Pagoda", coords: latLngToImageXY(10.990749029063668, 104.97741149846738,geoBounds,mapWidth,mapHeight) },
+      { name: "Lobster", coords: latLngToImageXY(10.994681059765664, 104.9762085668363,geoBounds,mapWidth, mapHeight) },
+      { name: "Restaurant I", coords: latLngToImageXY(10.986724222187762, 104.98231593192773,geoBounds,mapWidth, mapHeight) }
     ];
 
     const attractionIcon = L.icon({
