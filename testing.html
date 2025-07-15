@@ -60,9 +60,9 @@
 
     // Static attractions on the image (use image [y, x] coords)
     const attractions = [
-      { name: "Angkor Borei Craft Community", coords: [1200,250] },
+      { name: "Restaurant", coords: [1200,250] },
       { name: "Angkor Borei Musuem", coords: [1200,500] },
-      { name: "Restaurant", coords: [1080,250] },
+      { name: "Angkor Borei Craft Community", coords: [1080,250] },
       { name: "Coffee Shop", coords: [950,920] },
       { name: "Lobster", coords: [850,650] },
       { name: "CTC Center", coords: [580,660] },
@@ -89,8 +89,9 @@
       // const lat = pos.coords.latitude;
       // const lng = pos.coords.longitude;
 
-      const lat = 10.986738826235126;
-      const lng = 104.9818771299889;
+      // testing coords not a real one
+      const lat = 11.002903006000126;
+      const lng = 104.9790000259579;
 
       const coords = latLngToImageXY(lat, lng, geoBounds, mapWidth, mapHeight);
       console.log("map coord to img: ", coords);
@@ -99,13 +100,13 @@
         accuracyCircle.setLatLng(coords);
       } else {
         userMarker = L.marker(coords, {
-          icon: L.icon({ iconUrl: 'me.png', iconSize: [30, 30] })
+          icon: L.icon({ iconUrl: 'here.png', iconSize: [30, 30] })
         }).addTo(map).bindPopup("You are here");
 
         accuracyCircle = L.circle(coords, {
           radius: 40,
-          color: 'blue',
-          fillColor: '#30f',
+          color: 'lightblue',
+          fillColor: 'lightblue',
           fillOpacity: 0.2
         }).addTo(map);
       }
@@ -127,10 +128,9 @@
     function latLngToImageXY(lat, lng, bounds, imageWidth, imageHeight) {
       const { latTop, latBottom, lngLeft, lngRight } = bounds;
 
-      const x = ((lng - lngLeft) / (lngRight - lngLeft)) * imageWidth;
-      const y = ((latTop - lat) / (latTop - latBottom)) * imageHeight;
-
-      return [y, x]; // Leaflet Simple CRS uses [y, x]
+      const x = (lng - 104.9778547648623) * 44561.8 + 500;
+      const y = (10.994336672238893 - lat) * 79646.9 + 1200;
+      return [y, x];  
     }
   </script>
 
