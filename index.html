@@ -21,7 +21,16 @@
 
 </body>
 <script>
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    // var map = L.map('map').setView([51.505, -0.09], 13);
+    var map = L.map('map', {
+            center: [11.5564, 104.9282], // Phnom Penh center
+            zoom: 13,
+            maxBounds: [
+                [11.45, 104.80], // Southwest corner
+                [11.65, 105.05]  // Northeast corner
+            ],
+            maxBoundsViscosity: 1.0, // prevent dragging outside
+        });
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -91,5 +100,21 @@
         maxAge: 0 // time where u want ti show
     }
     const id = navigator.geolocation.watchPosition(success, error, options);
+
+
+    // show attraction inside phnom penh
+    const attractions = [
+        { name: "Royal Palace", lat: 11.5621, lng: 104.9312 },
+        { name: "Central Market", lat: 11.5750, lng: 104.9203 },
+        { name: "Wat Phnom", lat: 11.5762, lng: 104.9205 },
+        { name: "Tuol Sleng Genocide Museum", lat: 11.5449, lng: 104.9204 }
+    ];
+
+    attractions.forEach((place) => {
+        L.marker([place.lat, place.lng])
+        .addTo(map)
+        .bindPopup(`<b>${place.name}</b>`)
+    });
+
 </script>
 </html>
