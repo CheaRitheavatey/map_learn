@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ibetternotflopthis</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    #map {
+      height: 90vh;
+      width: 100%;
+    }
+
+    h1 {
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>I hope I don't flop this project</h1>
+  <div id="map"></div>
+
+  <script>
+    // 📍 Image map dimensions (in pixels)
+    const mapWidth = 2000;
+    const mapHeight = 1500;
+
+    // 🌐 Real GPS bounds of Phnom Penh matching the image (adjust to match your map)
+    const geoBounds = {
+      latTop: 11.6000,
+      latBottom: 11.5000,
+      lngLeft: 104.8800,
+      lngRight: 105.0000
+    };
+
+    // 🗺️ Set up Leaflet map with Simple CRS (image coords)
+    const map = L.map('map', {
+      crs: L.CRS.Simple,
+      minZoom: -1,
+      maxZoom: 2,
+      zoomControl: true
+    });
+
+    // 🖼️ Image overlay using pixel bounds
+    const imageBounds = [[0, 0], [mapHeight, mapWidth]];
+    L.imageOverlay('map.png', imageBounds).addTo(map);
+    map.fitBounds(imageBounds);
+
+    // 📌 Static attractions on the image (use image [y, x] coords)
+    const attractions = [
+      { name: "Royal Palace", coords: [500, 1000] },
+      { name: "Wat Phnom", coords: [400, 900] },
+      { name: "Central Market", coords: [600, 950] },
+      { name: "Olympia Market", coords: [800, 950] },
+      { name: "Old Market", coords: [800, 850] },
+    ];
+
+    const attractionIcon = L.icon({
+      iconUrl: 'attractionIcon.png',
+      iconSize: [40, 40],
+      className: 'custom-icon'
+    });
+
+    attractions.forEach(place => {
+      L.marker(place.coords, { icon: attractionIcon })
+        .addTo(map)
+        .bindPopup(`<b>${place.name}</b>`);
+    });
+
+    // 🧭 Live user tracking marker
+    let userMarker = null;
+    let accuracyCircle = null;
+
+    function updateLocation(pos) {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+
+      const coords = latLngToImageXY(lat, lng, geoBounds, mapWidth, mapHeight);
+
+      if (userMarker) {
+        userMarker.setLatLng(coords);
+        accuracyCircle.setLatLng(coords);
+      } else {
+        userMarker = L.marker(coords, {
+          icon: L.icon({ iconUrl: 'me.png', iconSize: [30, 30] })
+        }).addTo(map).bindPopup("You are here");
+
+        accuracyCircle = L.circle(coords, {
+          radius: 40,
+          color: 'blue',
+          fillColor: '#30f',
+          fillOpacity: 0.2
+        }).addTo(map);
+      }
+    }
+
+    function error(err) {
+      console.warn("Location error:", err);
+    }
+
+    const geoOptions = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    navigator.geolocation.watchPosition(updateLocation, error, geoOptions);
+
+    // 📐 Convert real GPS to image [y, x] coordinates
+    function latLngToImageXY(lat, lng, bounds, imageWidth, imageHeight) {
+      const { latTop, latBottom, lngLeft, lngRight } = bounds;
+
+      const x = ((lng - lngLeft) / (lngRight - lngLeft)) * imageWidth;
+      const y = ((latTop - lat) / (latTop - latBottom)) * imageHeight;
+
+      return [y, x]; // Leaflet Simple CRS uses [y, x]
+    }
+  </script>
+
+</body>
+</html>
