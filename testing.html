@@ -86,12 +86,12 @@
     let accuracyCircle = null;
 
     function updateLocation(pos) {
-      // const lat = pos.coords.latitude;
-      // const lng = pos.coords.longitude;
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
 
       // testing coords not a real one
-      const lat = 11.002903006000126;
-      const lng = 104.9790000259579;
+      // const lat = 11.002903006000126;
+      // const lng = 104.9790000259579;
 
       const coords = latLngToImageXY(lat, lng, geoBounds, mapWidth, mapHeight);
       console.log("map coord to img: ", coords);
