@@ -1,7 +1,7 @@
 import qrcode
 import qrcode.constants
 # video url
-video = "https://youtu.be/PXGycbkbtW0?si=1zxY3D3wZV9GKfcO"
+video = "https://www.canva.com/design/DAGtTkX7508/aszzDbtzHvr10J-7QVC-8g/watch"
 
 # genrate qr code
 qr = qrcode.QRCode(
